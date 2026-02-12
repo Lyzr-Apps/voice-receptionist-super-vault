@@ -1,0 +1,8 @@
+{
+  "agent_name": "Cafe Receptionist Agent",
+  "agent_id": "698ddc6d48eff0badfdf1a8f",
+  "description": "Friendly voice receptionist that handles inbound customer calls including reservations, menu questions, phone orders, and complaints with warm, conversational tone",
+  "agent_type": "voice",
+  "accessor": "websocket",
+  "auto_generated": true
+}

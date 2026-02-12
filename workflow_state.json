@@ -1,0 +1,58 @@
+{
+  "workflow_name": "Cafe Voice AI Receptionist",
+  "workflow_type": "single_agent_voice",
+  "agents": [
+    {
+      "agent_id": "698ddc6d48eff0badfdf1a8f",
+      "agent_name": "Cafe Receptionist Agent",
+      "agent_type": "voice",
+      "description": "Friendly voice receptionist that handles inbound customer calls including reservations, menu questions, phone orders, and complaints with warm, conversational tone",
+      "provider": "OpenAI",
+      "model": "gpt-4o-mini",
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "voice_config": {
+        "initiator": "human",
+        "message": "",
+        "language": "English",
+        "voice": "sage"
+      },
+      "response_schema_file": "response_schemas/cafe_receptionist_agent_response.json"
+    }
+  ],
+  "knowledge_bases": [],
+  "schedules": [],
+  "workflow_structure": {
+    "nodes": [
+      {
+        "id": "input_node",
+        "type": "Input",
+        "label": "Inbound Call",
+        "nodeCategory": "input"
+      },
+      {
+        "id": "cafe_receptionist_agent",
+        "type": "Agent",
+        "label": "Cafe Receptionist Agent",
+        "nodeCategory": "agent"
+      },
+      {
+        "id": "output_node",
+        "type": "Output",
+        "label": "Call Summary Output",
+        "nodeCategory": "end"
+      }
+    ],
+    "edges": [
+      {
+        "source": "input_node",
+        "target": "cafe_receptionist_agent"
+      },
+      {
+        "source": "cafe_receptionist_agent",
+        "target": "output_node"
+      }
+    ]
+  },
+  "created_at": "2026-02-12T00:00:00Z"
+}
