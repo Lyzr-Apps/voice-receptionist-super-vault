@@ -8,7 +8,7 @@
       "agent_type": "voice",
       "description": "Friendly voice receptionist that handles inbound customer calls including reservations, menu questions, phone orders, and complaints with warm, conversational tone",
       "provider": "OpenAI",
-      "model": "gpt-4o-mini",
+      "model": "gpt-5-mini",
       "temperature": 0.6,
       "top_p": 0.95,
       "voice_config": {
