@@ -442,9 +442,30 @@ export default function Home() {
           const msg = JSON.parse(event.data)
 
           if (msg.type === 'audio' && msg.audio) {
+            // Decode base64 to PCM16 data
+            const binaryString = atob(msg.audio)
+            const pcm16Data = new Int16Array(binaryString.length / 2)
+            const dataView = new DataView(new ArrayBuffer(binaryString.length))
+
+            for (let i = 0; i < binaryString.length; i++) {
+              dataView.setUint8(i, binaryString.charCodeAt(i))
+            }
+
+            for (let i = 0; i < pcm16Data.length; i++) {
+              pcm16Data[i] = dataView.getInt16(i * 2, true) // little-endian
+            }
+
+            // Convert PCM16 to Float32 for AudioBuffer
+            const float32Data = new Float32Array(pcm16Data.length)
+            for (let i = 0; i < pcm16Data.length; i++) {
+              float32Data[i] = pcm16Data[i] / (pcm16Data[i] < 0 ? 0x8000 : 0x7FFF)
+            }
+
+            // Create AudioBuffer manually from PCM data
+            const audioBuffer = audioContext.createBuffer(1, float32Data.length, sampleRateRef.current)
+            audioBuffer.getChannelData(0).set(float32Data)
+
             // Queue audio playback sequentially
-            const audioData = Uint8Array.from(atob(msg.audio), c => c.charCodeAt(0))
-            const audioBuffer = await audioContext.decodeAudioData(audioData.buffer)
             const sourceNode = audioContext.createBufferSource()
             sourceNode.buffer = audioBuffer
             sourceNode.connect(audioContext.destination)
