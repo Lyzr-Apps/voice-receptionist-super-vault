@@ -406,8 +406,8 @@ export default function Home() {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       mediaStreamRef.current = stream
 
-      // Step 3: Setup audio context
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 })
+      // Step 3: Setup audio context with server's sample rate
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate })
       audioContextRef.current = audioContext
 
       const source = audioContext.createMediaStreamSource(stream)
@@ -519,7 +519,7 @@ export default function Home() {
           ws.send(JSON.stringify({
             type: 'audio',
             audio: base64,
-            sampleRate: 16000
+            sampleRate: sampleRateRef.current
           }))
         }
       }
